@@ -8,10 +8,11 @@ using System.Web.Routing;
 
 namespace ZZL.MessageBoard.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : Spring.Web.Mvc.SpringMvcApplication
     {
         protected void Application_Start()
         {
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

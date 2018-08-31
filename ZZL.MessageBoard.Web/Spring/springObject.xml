@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <!--这里的type表示的是name类型所在的命名空间和程序集
+      在代码中是通过引用name来实现注入的-->
+  
+
+  <object type="ZZL.MessageBoard.Web.Controllers.HomeController,ZZL.MessageBoard.Web" singleton="false">
+    <property name="CustomerService" ref="CustomerService"></property>
+    <!--Controller引用IBLL-->
+  </object>
+</objects>
