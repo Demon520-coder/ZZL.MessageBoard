@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SmartSqlMap Scope="TB_Customers"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+    <Statement Id="GetList">
+      SELECT T.* From [Sales].[Customers] T With(NoLock)
+      Order By T.Id Desc
+    </Statement>
+    <!--获取分页数据-->
+    <Statement Id="GetListByPage">
+      Select TT.* From
+      (Select ROW_NUMBER() Over(Order By T.Id Desc) Row_Index,T.* From [Sales].[Customers] T With(NoLock)
+      Where TT.Row_Index Between ((@PageIndex-1)*@PageSize+1) And (@PageIndex*@PageSize)
+    </Statement>
+    <!--获取记录数-->
+    <Statement Id="GetRecord">
+      Select Count(1) From [Sales].[Customers] T With(NoLock)
+    </Statement>
+    <!--获取表映射实体-->
+    <Statement Id="GetEntity">
+      Select Top 1 T.* From [Sales].[Customers] T With(NoLock)
+      Where 1=1
+      <IsNotEmpty Prepend="And" Property="Id">
+        T.id=@Id
+      </IsNotEmpty>
+    </Statement>
+    <!--是否存在该记录-->
+    <Statement Id="IsExist">
+      Select Count(1) From [Sales].[Customers] T With(NoLock)
+    </Statement>
+    <Statement Id="Save">
+      INSERT INTO [Sales].[Customers]
+      (
+      [companyname]
+      ,[contactname]
+      ,[contacttitle]
+      ,[address]
+      ,[city]
+      ,[region]
+      ,[postalcode]
+      ,[country]
+      ,[phone]
+      ,[fax]
+      )
+      VALUES
+      (
+      @companyname,
+      @contactname,
+      @contacttitle,
+      @address,
+      @city,
+      @region,
+      @postalcode,
+      @country,
+      @phone,
+      @fax
+      )
+    </Statement>
+    
+    <Statement Id="Update">
+      UPDATE [Sales].[Customers]
+      SET [companyname] = @companyname
+      ,[contactname] =@contactname
+      ,[contacttitle] =@contacttitle
+      ,[address] =@address
+      ,[city] =@city
+      ,[region] =@region
+      ,[postalcode] = @postalcode
+      ,[country] =@country
+      ,[phone] =@phone
+      ,[fax] =@fax
+      WHERE id=@id
+    </Statement>
+  </Statements>
+</SmartSqlMap>
