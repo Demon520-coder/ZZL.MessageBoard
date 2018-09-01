@@ -5,7 +5,7 @@
   />
   <Database>
     <DbProvider Name="SqlClientFactory" ParameterPrefix="@" Type="System.Data.SqlClient.SqlClientFactory,System.Data.SqlClient"/>
-    <Write Name="WriteDB" ConnectionString="Data Source=.;database=TSQL2012;uid=sa;pwd=1122"/>
+    <Write Name="WriteDB" ConnectionString="Data Source=.;database=MessageBord;uid=sa;pwd=1122"/>
     <!--<Read Name="ReadDB-0" ConnectionString="Data Source=.;database=TSQL2012;uid=sa;pwd=1122" Weight="80"/>-->  
   </Database>
   <SmartSqlMaps>

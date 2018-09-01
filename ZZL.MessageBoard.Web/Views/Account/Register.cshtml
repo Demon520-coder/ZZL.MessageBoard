@@ -1,0 +1,50 @@
+﻿@model ZZL.MessageBoard.Web.Models.AccountViewModel.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<br />
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationMessage("error", new { style = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(s => s.UserName, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(s => s.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(s => s.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(s => s.PassWord, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-5">
+            @Html.PasswordFor(s => s.PassWord, new { @class = "form-control" })
+            @Html.ValidationMessageFor(s => s.PassWord, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(s => s.ConfirmPassWord, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-5">
+            @Html.PasswordFor(s => s.ConfirmPassWord, new { @class = "form-control" })
+            @Html.ValidationMessageFor(s => s.ConfirmPassWord, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(s => s.Email, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(s => s.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(s => s.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-5">
+            <button type="submit" class="btn btn-default">注册</button>
+        </div>
+    </div>
+}
+
+
