@@ -10,13 +10,16 @@ namespace ZZL.MessageBoard.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ICustomerService CustomerService { get; set; }
+        private ICustomerService _customerService;
 
+        public HomeController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
 
-      
         public ActionResult Index()
         {
-            var list = CustomerService.GetList(null);
+            var list = _customerService.GetList(null);
             return View();
         }
 

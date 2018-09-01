@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<objects>
-  <object id="CustomerService" type="ZZL.MessageBoard.Service.Service.CustomerService,ZZL.MessageBoard.Service">
-    
-  </object>
-</objects>
