@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ZZL.Common;
 using ZZL.MessageBoard.Service.IService;
 using static ZZL.MessageBoard.Web.Models.AccountViewModel;
@@ -27,8 +29,15 @@ namespace ZZL.MessageBoard.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel userModel)
+        public ActionResult Login(LoginViewModel userModel, string returnUrl)
         {
+            //var url = System.Web.HttpUtility.UrlDecode(returnUrl);
+
+            //if (!Url.IsLocalUrl(url))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+
             var code = TempData["code"]?.ToString();
 
             if (code.IsNullOrEmpty())
@@ -45,8 +54,18 @@ namespace ZZL.MessageBoard.Web.Controllers
                         //更难登陆时间
                         userInfo.LastLoginTime = DateTime.Now;
                         _userService.Update(userInfo);
+                        //写入cookie;
+                      
+                        var userTicket = new FormsAuthenticationTicket(1, "ticket", DateTime.Now, DateTime.Now.AddDays(3), false, userInfo.Id + "," + userInfo.UserName);
 
+                        //FormsAuthentication.SetAuthCookie("", false, "");
+                        HttpCookie cookie = new HttpCookie("user", Convert.ToBase64String(Encoding.UTF8.GetBytes(FormsAuthentication.Encrypt(userTicket))));
+                        cookie.HttpOnly = true;
+                        cookie.Expires = DateTime.Now.AddDays(3);  
+                        Response.Cookies.Add(cookie);
+                     
 
+                        return RedirectToAction("Index","Home");
                     }
                     else
                     {

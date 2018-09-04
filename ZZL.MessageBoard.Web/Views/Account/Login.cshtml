@@ -4,10 +4,10 @@
 }
 
 <br />
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Login", "Account", new { returnUrl = Request.QueryString["returnUrl"] }, FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken();
-  
+
     <div class="form-group">
         @Html.LabelFor(s => s.UserName, new { @class = "col-sm-3 control-label" })
         <div class="col-sm-5">

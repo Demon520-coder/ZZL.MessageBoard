@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
@@ -23,7 +23,17 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("主页", "Index", "Home")</li>
                     <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("登陆", "Login", "Account")</li>
+                    @if (ViewData["userInfo"] == null)
+                    {
+                        <li>@Html.ActionLink("登陆", "Login", "Account")</li>
+                    }
+                    else
+                    {
+                        var user = ViewData["userInfo"] as ZZL.MessageBoard.Web.Models.CurrentUser;
+                        <li><a> @user.UserName</a></li>
+                    }
+
+                    <li>@Html.ActionLink("我要留言", "LeaveMessage", "Message")</li>
                 </ul>
             </div>
         </div>

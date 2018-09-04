@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SmartSqlMap Scope="TB_USER"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+<SmartSqlMap Scope="TB_MESSAGE"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
   <Statements>
     <Statement Id="GetList">
-      SELECT T.* From TB_USER T With(NoLock)
+      SELECT T.* From TB_MESSAGE T With(NoLock)
       WHERE STATUS=1  Order By T.Id Desc
+      OFFSET (@PageIndex-1)*@PageSize ROWS FETCH NEXT @PageSize ROWS ONLY;
     </Statement>
+    
     <!--获取分页数据-->
     <Statement Id="GetListByPage">
       Select TT.* From
@@ -17,32 +19,33 @@
     </Statement>
     <!--获取表映射实体-->
     <Statement Id="GetEntity">
-      Select Top 1 T.* From TB_USER T With(NoLock)
-      WHERE Id=@Id;
+      Select Top 1 T.* From [Sales].[Customers] T With(NoLock)
+      Where 1=1
+      <IsNotEmpty Prepend="And" Property="Id">
+        T.id=@Id
+      </IsNotEmpty>
     </Statement>
     <!--是否存在该记录-->
     <Statement Id="IsExist">
       Select Count(1) From [Sales].[Customers] T With(NoLock)
     </Statement>
     <Statement Id="Save">
-      INSERT INTO TB_USER
+      INSERT INTO TB_MESSAGE
       (
-      [UserName]
-      ,[Pwd]
-      ,[Email]
+      [UserId]
+      ,[UserName]
+      ,[Title]
+      ,[Body]
       ,[CreateDate]
-      ,[LastLoginTime]
-      ,[Remark]
       ,[Status]
       )
       VALUES
       (
+      @UserId,
       @UserName,
-      @Pwd,
-      @Email,
+      @Title,
+      @Body,
       @CreateDate,
-      @LastLoginTime,
-      @Remark,
       @Status
       )
     </Statement>
@@ -55,22 +58,11 @@
       ,[CreateDate] =@CreateDate
       ,[LastLoginTime] =@LastLoginTime
       ,[Remark] =@Remark
-      ,[Status] = @Status    
+      ,[Status] = @Status
       WHERE Id=@Id
     </Statement>
 
 
-    <Statement Id="Login">
-      SELECT * FROM TB_USER WHERE UserName=@UserName AND Pwd=@Pwd AND Status=1;
-    </Statement>
 
-    <Statement Id="IsExsistsUserName">
-      SELECT COUNT(1) FROM TB_USER WHERE UserName=@UserName  AND Status=1;
-    </Statement>
-
-    <Statement Id="IsExsistsEmail">
-      SELECT COUNT(1) FROM TB_USER WHERE Email=@Email AND Status=1;
-    </Statement>
-    
   </Statements>
 </SmartSqlMap>
